@@ -24,8 +24,9 @@ Bicicleta.findById = (aBiciId) => {
 }
 
 Bicicleta.removeById = (aBiciId) => {
+    console.log('aBiciId', aBiciId);
     Bicicleta.allBicis.forEach((bici, index) => {
-        if(bici.id === aBiciId){
+        if(bici.id.toString() === aBiciId.toString()){
             Bicicleta.allBicis.splice(index, 1);
             return;
         }
