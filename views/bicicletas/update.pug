@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    .container
+        a.btn.btn-primary(href="/bicicletas") Volver
+        h1 Actualizando Bicicleta
+        form(action=`/bicicletas/${bici.id}/update` method="post")
+            label(for="") ID
+            input#id.form-control(type="number" name="id" value=bici.id required)
+            label(for="") Color
+            input#color.form-control(type="text" name="color" value=bici.color required)
+            label(for="") Modelo
+            input#modelo.form-control(type="text" name="modelo" value=bici.modelo required)
+            label(for="") Lat
+            input#lat.form-control(type="number" name="lat" value=bici.ubicacion[0])
+            label(for="") Lng
+            input#lng.form-control(type="number" name="lng" value=bici.ubicacion[1])
+            input.btn.btn-primary(type="submit" value="Guardar")

@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    .container
+        a.btn.btn-primary(href="/bicicletas") Volver
+        h1 Nueva Bicicleta
+        form(action="/bicicletas/create" method="post")
+            label(for="") ID
+            input#id.form-control(type="number" name="id" required)
+            label(for="") Color
+            input#color.form-control(type="text" name="color" required)
+            label(for="") Modelo
+            input#modelo.form-control(type="text" name="modelo" required)
+            label(for="") Lat
+            input#lat.form-control(type="number" name="lat")
+            label(for="") Lng
+            input#lng.form-control(type="number" name="lng")
+            input.btn.btn-primary(type="submit" value="Guardar")
