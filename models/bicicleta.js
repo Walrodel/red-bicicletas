@@ -16,7 +16,7 @@ Bicicleta.add = (aBici) => {
 }
 
 Bicicleta.findById = (aBiciId) => {
-    let bici = Bicicleta.allBicis.find(x => x.id.toString() === aBiciId);
+    let bici = Bicicleta.allBicis.find(x => x.id.toString() === aBiciId.toString());
     if(bici)
         return bici;
     else
@@ -33,10 +33,10 @@ Bicicleta.removeById = (aBiciId) => {
     });
 }
 
-var a = new Bicicleta(1, 'rojo', 'urbana', [4.7481775, -74.0974518]);
-var b = new Bicicleta(2, 'blaca', 'urbana', [4.7440077, -74.0974715]);
+// var a = new Bicicleta(1, 'rojo', 'urbana', [4.7481775, -74.0974518]);
+// var b = new Bicicleta(2, 'blaca', 'urbana', [4.7440077, -74.0974715]);
 
-Bicicleta.add(a);
-Bicicleta.add(b);
+// Bicicleta.add(a);
+// Bicicleta.add(b);
 
 module.exports = Bicicleta;
