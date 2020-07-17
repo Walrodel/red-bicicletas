@@ -1,4 +1,4 @@
-var Bicicleta = require('../models/Bicicleta');
+var Bicicleta = require('../models/bicicleta');
 
 exports.bicicleta_list = (req, res) => {
     res.render('bicicletas/index', {bicis: Bicicleta.allBicis});
