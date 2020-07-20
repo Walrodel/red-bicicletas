@@ -12,6 +12,7 @@ var usersRouter = require('./routes/users');
 var biciletasRouter = require('./routes/bicicletas');
 var biciletasApiRouter = require('./routes/api/bicicletas');
 var usuariosApiRouter = require('./routes/api/usuarios');
+var tokenRouter = require('./routes/token');
 
 //Configs
 require('./config/connection');
@@ -29,10 +30,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/usuarios', usersRouter);
 app.use('/bicicletas', biciletasRouter);
 app.use('/api/bicicletas', biciletasApiRouter);
 app.use('/api/usuarios', usuariosApiRouter);
+app.use('/token', tokenRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

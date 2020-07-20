@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+    .container
+        a.btn.btn-primary(href="/usuarios") Volver
+        h1 Actualizar Usuario
+        form(action=`/usuarios/${usuario._id}/update` method="post")
+            label(for="") Nombre
+            input.form-control(type="text" name="nombre" value=usuario.nombre class=errors.nombre ? 'is-invalid': '' required)
+            if errors.nombre 
+                small#nombreHelp.text-danger
+                    = errors.nombre.message
+            input.btn.btn-primary(type="submit" value="Guardar")
