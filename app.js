@@ -117,7 +117,7 @@ app.use('/', indexRouter);
 app.use('/usuarios', usersRouter);
 app.use('/bicicletas', logenIn, biciletasRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/bicicletas', biciletasApiRouter);
+app.use('/api/bicicletas', validarUsuario, biciletasApiRouter);
 app.use('/api/usuarios', usuariosApiRouter);
 app.use('/token', tokenRouter);
 
@@ -148,7 +148,7 @@ function logenIn(req, res, next){
 }
 
 function validarUsuario(req, res, next) {
-  jwt.verify(req.headers['x-access-token'], req.app.get('secrepKey'), function(err, decode){
+  jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function(err, decode){
     if(err) {
       res.json({
         status: 'error',
