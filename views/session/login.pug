@@ -28,7 +28,7 @@ block content
         .container-login100
             .wrap-login100.p-l-55.p-r-55.p-t-65.p-b-50
                 if message
-                    span.text-danger
+                    div.alert.alert-danger
                         = message
                 form.login100-form.validate-form(action=`/login` method="post")
                     span.login100-form-title.p-b-33
@@ -47,7 +47,7 @@ block content
                     .text-center.p-t-45.p-b-4
                         span.txt1
                             | Forgot
-                        a.txt2.hov1(href='#')
+                        a.txt2.hov1(href='/forgotpassword')
                             | Username / Password?
                     .text-center
                         span.txt1

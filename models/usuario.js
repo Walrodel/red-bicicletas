@@ -81,6 +81,31 @@ UsuarioSchema.methods.enviar_email_bienvenida = function (cb) {
     })
 }
 
+UsuarioSchema.methods.resetPassword = function (cb) {
+    let token = new Token({usuarioId: this._id, token: crypto.randomBytes(16).toString('hex')});
+    const emailDistination = this.email;
+    token.save(function(err){
+        if(err){
+            console.log(err);
+        }else{
+            const mailOptions = {
+                from: 'no-reply@redbicicletas.com',
+                to: emailDistination,
+                subject: 'Reseteo password de cuenta',
+                text: `Por favor para resetear su password\nhttp://localhost:3000\/resetPassword\/${token.token}`
+            }
+            mailer.sendMail(mailOptions, function(err){
+                if(err){
+                    console.log(err.message);
+                    return;
+                }
+                console.log(`Se envio email a ${mailOptions.to}`);
+            })
+        }
+    })
+}
+
+
 UsuarioSchema.methods.reservar = function (biciId, desde, hasta, cb) {
     var reserva = new Reserva({usuario: this._id, bicicleta: biciId, desde: desde, hasta: hasta});
     reserva.save(cb);
