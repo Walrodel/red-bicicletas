@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -120,6 +121,10 @@ app.use('/api/auth', authRouter);
 app.use('/api/bicicletas', validarUsuario, biciletasApiRouter);
 app.use('/api/usuarios', usuariosApiRouter);
 app.use('/token', tokenRouter);
+
+app.get('/google757a1004b07d0a8a', function(req, res, next) {
+  res.sendFile('public/google757a1004b07d0a8a.html');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
