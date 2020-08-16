@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var controller = require('../controllers/Bicicleta');
+var controller = require('../controllers/bicicleta');
 
 router.get('/', controller.bicicleta_list);
 router.get('/create', controller.bicicleta_create_get);
