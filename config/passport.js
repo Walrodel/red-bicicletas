@@ -1,7 +1,7 @@
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const Usuario = require('../models/usuario');
-var GoogleStrategy = require('passport-google-oauth').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.use(new localStrategy({
     usernameField: 'email',
