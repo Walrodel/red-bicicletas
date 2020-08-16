@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('./config/passport');
 var session = require('express-session');
+const MongoStore = require('connect-mongodb-session')(session);
 var jwt = require('jsonwebtoken');
 
 //Models
@@ -21,11 +22,23 @@ var usuariosApiRouter = require('./routes/api/usuarios');
 var tokenRouter = require('./routes/token');
 var authRouter = require('./routes/api/auth');
 const { send } = require('process');
+const { assert } = require('console');
 
 //Configs
 require('./config/connection');
-
-var store = new session.MemoryStore;
+let store;
+if (process.env.MODE_ENV === 'development'){
+  store = new session.MemoryStore;
+} else {
+  store = MongoStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+  });
+  store.on('error', function (error){
+    assert.ifError(error);
+    assert.ok(false);
+  })
+}
 
 var app = express();
 app.set('secretKey', 'jwt_12345')
@@ -113,6 +126,25 @@ app.post('/resetPassword', function(req, res, next) {
     })
   })
 });
+
+// GET /auth/google
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Google authentication will involve redirecting
+//   the user to google.com.  After authorization, Google will redirect the user
+//   back to this application at /auth/google/callback
+app.get('/auth/google',
+  passport.authenticate('google', { scope: 'https://www.google.com/auth/plus.login' }));
+
+// GET /auth/google/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/error' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
 app.use('/', indexRouter);
 app.use('/usuarios', usersRouter);

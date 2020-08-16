@@ -105,6 +105,31 @@ UsuarioSchema.methods.resetPassword = function (cb) {
     })
 }
 
+UsuarioSchema.statics.findOrCreateGoogle = function findOneOrCreate(condition, callback){
+    const self = this;
+    self.findOne({
+        $or: [
+            {'googleId': condition.id}, {'email': condition.emails[0].value}
+        ]
+    },
+    (err, result) => {
+        if(result){
+            callback(err, result);
+        } else {
+            let values = {};
+            values.googleId = condition.id;
+            values.email = condition.emails[0].value;
+            values.nombre = condition,displayName || "Sin nombre";
+            values.verificado = true;
+            values.password = condition._json.etag;
+            self.create(values, (err, result) => {
+                if(err) {console.log(err);}
+                return callback(err, result);
+            })
+        }
+    });
+}
+
 
 UsuarioSchema.methods.reservar = function (biciId, desde, hasta, cb) {
     var reserva = new Reserva({usuario: this._id, bicicleta: biciId, desde: desde, hasta: hasta});
