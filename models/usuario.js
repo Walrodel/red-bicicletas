@@ -37,7 +37,9 @@ var UsuarioSchema = new mongoose.Schema({
     verificado: {
         type: Boolean,
         default: false
-    }
+    },
+    googleId: String,
+    facebookId: String
 },
     {
         timestamps: true,
@@ -119,7 +121,7 @@ UsuarioSchema.statics.findOrCreateGoogle = function findOneOrCreate(condition, c
             let values = {};
             values.googleId = condition.id;
             values.email = condition.emails[0].value;
-            values.nombre = condition,displayName || "Sin nombre";
+            values.nombre = condition.displayName || "Sin nombre";
             values.verificado = true;
             values.password = condition._json.etag;
             self.create(values, (err, result) => {
@@ -130,6 +132,31 @@ UsuarioSchema.statics.findOrCreateGoogle = function findOneOrCreate(condition, c
     });
 }
 
+UsuarioSchema.statics.findOrCreateFacebook = function findOneOrCreate(condition, callback){
+    const self = this;
+    self.findOne({
+        $or: [
+            {'facebookId': condition.id}, {'email': condition.emails[0].value}
+        ]
+    },
+    (err, result) => {
+        if(result){
+            callback(err, result);
+        } else {
+            console.log(condition);
+            let values = {};
+            values.facebookId = condition.id;
+            values.email = condition.emails[0].value;
+            values.nombre = condition.displayName || "Sin nombre";
+            values.verificado = true;
+            values.password = crypto.randomBytes(16).toString('hex');
+            self.create(values, (err, result) => {
+                if(err) {console.log(err);}
+                return callback(err, result);
+            })
+        }
+    });
+}
 
 UsuarioSchema.methods.reservar = function (biciId, desde, hasta, cb) {
     var reserva = new Reserva({usuario: this._id, bicicleta: biciId, desde: desde, hasta: hasta});
